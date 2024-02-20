@@ -37,7 +37,6 @@ class MoveNodesToProject:
           continue
         moved_nodes.append(node_id)
         moved_nodes.extend([n.id for n in node.descendants()]) #verified this works.
-
         if not self.project.nodes[node_id].root_node:
           file_to_move = self.project.extensions['POP_NODE']._pop_node(
             node_id,
@@ -46,14 +45,14 @@ class MoveNodesToProject:
         else:
           file_to_move = self.project.nodes[node_id].filename
         files_to_move.append(file_to_move)
-      for file in files_to_move:
-        file_changed_ids = self.project.project_list.move_file(
-          file,
-          source_project.title(),
-          dest_project.title(),
-          replace_links=False)
-        if file_changed_ids:
-          changed_ids.update(file_changed_ids)
+    for file in files_to_move:
+      file_changed_ids = self.project.project_list.move_file(
+        file,
+        source_project.title(),
+        dest_project.title(),
+        replace_links=False)
+      if file_changed_ids:
+        changed_ids.update(file_changed_ids)
     
     nodes_to_update = self._get_links_to_multiple(moved_nodes)
     
@@ -64,11 +63,13 @@ class MoveNodesToProject:
           resolved_link = changed_ids[replacement_link]
         else:
           resolved_link = replacement_link
-        self.project.nodes[node_id].replace_links(
-          replacement_link,
-          new_id=resolved_link,
-          new_project=dest_project.title())
-    # replace them with the new ID
+        if node_id in self.project.nodes:
+          self.project.nodes[node_id].replace_links(
+            replacement_link,
+            new_id=resolved_link,
+            new_project=dest_project.title())
+        else:
+          print(node_id, ' not in the project to update (temporarz)')
 
     return input_contents
 

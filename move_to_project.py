@@ -57,18 +57,18 @@ class MoveNodesToProject:
     
     nodes_to_update = self._get_links_to_multiple(moved_nodes)
     
-    # for node_id in nodes_to_update: 
-    #   for replacement_link in nodes_to_update[node_id]:
-    #     if replacement_link in changed_ids:
-    #       resolved_link = changed_ids[replacement_link]
-    #     else:
-    #       resolved_link = replacement_link
-    #     self.project.nodes[node_id].replace_links(
-    #       replacement_link,
-    #       new_id=resolved_link,
-    #       new_project=dest_project.title())
+    #file update bug here
+    for node_id in nodes_to_update: 
+      for replacement_link in nodes_to_update[node_id]:
+        if replacement_link in changed_ids:
+          resolved_link = changed_ids[replacement_link]
+        else:
+          resolved_link = replacement_link
+        self.project.nodes[node_id].replace_links(
+          replacement_link,
+          new_id=resolved_link,
+          new_project=dest_project.title())
     # replace them with the new ID
-    print('ALL DONE!')
 
     return input_contents
 

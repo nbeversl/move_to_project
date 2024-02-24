@@ -63,13 +63,10 @@ class MoveNodesToProject:
           resolved_link = changed_ids[replacement_link]
         else:
           resolved_link = replacement_link
-        if node_id in self.project.nodes:
-          self.project.nodes[node_id].replace_links(
-            replacement_link,
-            new_id=resolved_link,
-            new_project=dest_project.title())
-        else:
-          print(node_id, ' not in the project to update (temporarz)')
+        self.project.nodes[node_id].replace_links(
+          replacement_link,
+          new_id=resolved_link,
+          new_project=dest_project.title())
 
     return input_contents
 
